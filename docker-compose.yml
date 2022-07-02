@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  spark:
+    build: .
+    container_name: spark_master
+    environment:
+      - SPARK_MODE=master
+      - SPARK_RPC_AUTHENTICATION_ENABLED=no
+      - SPARK_RPC_ENCRYPTION_ENABLED=no
+      - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
+      - SPARK_SSL_ENABLED=no
+      - SPARK_SUBMIT_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005
+      - AWS_PROFILE=462037219736_hca-developer-policy
+    ports:
+      - '8080:8080'
+      - '5005:5005'
+    volumes:
+      - ${REPOS_DIR}:/repos
+      - ${SAMPLE_DATA_DIR}:/sample-data
+      - ${AWS_CREDENTIALS_DIR}:/home/user/.aws
+  spark-worker:
+    build: .
+    container_name: spark_worker
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER_URL=spark://spark:7077
+      - SPARK_WORKER_MEMORY=1G
+      - SPARK_WORKER_CORES=1
+      - SPARK_RPC_AUTHENTICATION_ENABLED=no
+      - SPARK_RPC_ENCRYPTION_ENABLED=no
+      - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
+      - SPARK_SSL_ENABLED=no
+      - SPARK_SUBMIT_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005
+      - AWS_PROFILE=462037219736_hca-developer-policy
+    volumes:
+      - ${REPOS_DIR}:/repos
+      - ${SAMPLE_DATA_DIR}:/sample-data
+      - ${AWS_CREDENTIALS_DIR}:/home/user/.aws
