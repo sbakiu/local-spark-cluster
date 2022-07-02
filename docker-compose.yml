@@ -11,7 +11,7 @@ services:
       - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
       - SPARK_SSL_ENABLED=no
       - SPARK_SUBMIT_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005
-      - AWS_PROFILE=462037219736_hca-developer-policy
+      - AWS_PROFILE=${AWS_PROFILE}
     ports:
       - '8080:8080'
       - '5005:5005'
@@ -32,7 +32,7 @@ services:
       - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
       - SPARK_SSL_ENABLED=no
       - SPARK_SUBMIT_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005
-      - AWS_PROFILE=462037219736_hca-developer-policy
+      - AWS_PROFILE=${AWS_PROFILE}
     volumes:
       - ${REPOS_DIR}:/repos
       - ${SAMPLE_DATA_DIR}:/sample-data
